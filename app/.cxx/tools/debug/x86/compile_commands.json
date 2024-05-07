@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/x86",
+  "command": "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=i686-none-linux-android29 --sysroot=/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dmyapplication_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/myapplication.dir/myapplication.cpp.o -c /Users/mathissigier/AndroidStudioProjects/Projet/app/src/main/cpp/myapplication.cpp",
+  "file": "/Users/mathissigier/AndroidStudioProjects/Projet/app/src/main/cpp/myapplication.cpp"
+}
+]

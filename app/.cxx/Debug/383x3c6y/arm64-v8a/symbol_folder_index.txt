@@ -1,0 +1,1 @@
+/Users/mathissigier/AndroidStudioProjects/Projet/app/build/intermediates/cxx/Debug/383x3c6y/obj/arm64-v8a

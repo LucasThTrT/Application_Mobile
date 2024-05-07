@@ -1,0 +1,1 @@
+/Users/mathissigier/AndroidStudioProjects/Projet/app/build/intermediates/cxx/RelWithDebInfo/245i5x58/obj/x86

@@ -1,0 +1,3 @@
+/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/RelWithDebInfo/245i5x58/x86/CMakeFiles/myapplication.dir
+/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/RelWithDebInfo/245i5x58/x86/CMakeFiles/edit_cache.dir
+/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/RelWithDebInfo/245i5x58/x86/CMakeFiles/rebuild_cache.dir

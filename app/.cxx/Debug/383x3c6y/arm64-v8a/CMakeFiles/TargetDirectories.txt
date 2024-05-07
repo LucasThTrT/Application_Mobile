@@ -1,0 +1,3 @@
+/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/arm64-v8a/CMakeFiles/myapplication.dir
+/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/arm64-v8a/CMakeFiles/rebuild_cache.dir
