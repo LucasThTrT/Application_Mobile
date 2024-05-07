@@ -1,4 +1,4 @@
-# Install script for directory: /Users/mathissigier/AndroidStudioProjects/Projet/app/src/main/cpp
+# Install script for directory: /Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objdump")
+  set(CMAKE_OBJDUMP "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objdump")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/x86/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

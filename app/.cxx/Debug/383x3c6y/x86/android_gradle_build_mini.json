@@ -1,26 +1,26 @@
 {
   "buildFiles": [
-    "/Users/mathissigier/AndroidStudioProjects/Projet/app/src/main/cpp/CMakeLists.txt"
+    "/Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp/CMakeLists.txt"
   ],
   "cleanCommandsComponents": [
     [
-      "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "/Users/lucas/Library/Android/sdk/cmake/3.22.1/bin/ninja",
       "-C",
-      "/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/x86",
+      "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86",
       "clean"
     ]
   ],
   "buildTargetsCommandComponents": [
-    "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "/Users/lucas/Library/Android/sdk/cmake/3.22.1/bin/ninja",
     "-C",
-    "/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/x86",
+    "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86",
     "{LIST_OF_TARGETS_TO_BUILD}"
   ],
   "libraries": {
     "myapplication::@6890427a1f51a3e7e1df": {
       "artifactName": "myapplication",
       "abi": "x86",
-      "output": "/Users/mathissigier/AndroidStudioProjects/Projet/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86/libmyapplication.so",
+      "output": "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86/libmyapplication.so",
       "runtimeFiles": []
     }
   }

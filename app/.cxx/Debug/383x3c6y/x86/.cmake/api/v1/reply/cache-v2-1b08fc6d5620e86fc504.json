@@ -23,7 +23,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393"
 		},
 		{
 			"name" : "ANDROID_PLATFORM",
@@ -51,7 +51,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-addr2line"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-addr2line"
 		},
 		{
 			"name" : "CMAKE_ANDROID_ARCH_ABI",
@@ -75,7 +75,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar"
 		},
 		{
 			"name" : "CMAKE_ASM_FLAGS",
@@ -151,7 +151,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/x86"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -199,7 +199,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/bin/cmake"
+			"value" : "/Users/Lucas/Library/Android/sdk/cmake/3.22.1/bin/cmake"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -211,7 +211,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/bin/cpack"
+			"value" : "/Users/Lucas/Library/Android/sdk/cmake/3.22.1/bin/cpack"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -223,7 +223,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/bin/ctest"
+			"value" : "/Users/Lucas/Library/Android/sdk/cmake/3.22.1/bin/ctest"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -507,7 +507,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/bin/ccmake"
+			"value" : "/Users/Lucas/Library/Android/sdk/cmake/3.22.1/bin/ccmake"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -683,7 +683,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/src/main/cpp"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -719,7 +719,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -735,7 +735,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -747,7 +747,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/bin/ninja"
+			"value" : "/Users/lucas/Library/Android/sdk/cmake/3.22.1/bin/ninja"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -843,7 +843,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-nm"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-nm"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -871,7 +871,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objcopy"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objcopy"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -887,7 +887,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objdump"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objdump"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -951,7 +951,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib"
 		},
 		{
 			"name" : "CMAKE_READELF",
@@ -967,7 +967,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-readelf"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-readelf"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -979,7 +979,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/mathissigier/Library/Android/sdk/cmake/3.22.1/share/cmake-3.22"
+			"value" : "/Users/Lucas/Library/Android/sdk/cmake/3.22.1/share/cmake-3.22"
 		},
 		{
 			"name" : "CMAKE_RUNTIME_OUTPUT_DIRECTORY",
@@ -991,7 +991,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1199,7 +1199,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-strip"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-strip"
 		},
 		{
 			"name" : "CMAKE_SYSTEM_NAME",
@@ -1235,7 +1235,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake"
+			"value" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake"
 		},
 		{
 			"name" : "CMAKE_UNAME",
@@ -1275,7 +1275,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/x86"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86"
 		},
 		{
 			"name" : "myapplication_IS_TOP_LEVEL",
@@ -1299,7 +1299,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/src/main/cpp"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp"
 		}
 	],
 	"kind" : "cache",

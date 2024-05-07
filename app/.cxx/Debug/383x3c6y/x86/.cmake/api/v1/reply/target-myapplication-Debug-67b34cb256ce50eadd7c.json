@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86/libmyapplication.so"
+			"path" : "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86/libmyapplication.so"
 		}
 	],
 	"backtrace" : 1,
@@ -58,7 +58,7 @@
 			],
 			"sysroot" : 
 			{
-				"path" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+				"path" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
 			}
 		}
 	],
@@ -89,7 +89,7 @@
 		"language" : "CXX",
 		"sysroot" : 
 		{
-			"path" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+			"path" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
 		}
 	},
 	"name" : "myapplication",

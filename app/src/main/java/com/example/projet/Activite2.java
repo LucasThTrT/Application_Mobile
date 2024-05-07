@@ -95,43 +95,34 @@ public class Activite2 extends AppCompatActivity {
 
         // Récupération depuis requête HTTP des données
         // et rajout dans les views
-        this.queue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, requestArraySuccessListener(), requestArrayErrorListener());
-        this.queue.add(jsonArrayRequest);
+        this.RequestDevices();
 
-        /*
-        // mise à jour des appareils toutes les 10 secondes
+
+        // Création d'un Handler en Thread pour récupérer toutes les 10secondes les données
         Handler handler = new Handler();
-        Runnable Code_maj = new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.d(ContentValues.TAG , "Mise à jour des appareils");
-
-                // METTRE LE CODE DE LA MISE 0 JOUR DES APPAREILS ICI
-                // Récupération depuis requête HTTP des données
-                // et rajout dans les views
-                RequestQueue queue = Volley.newRequestQueue();
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, requestArraySuccessListener(), requestArrayErrorListener());
-                queue.add(jsonArrayRequest);
-
+                RequestDevices();
                 handler.postDelayed(this, 10000);
             }
-        };
-        // Boucle pour la mise à jour
-        for (int i = 0; i < 10000; i++) {
-            // Lancement de l'éxécution
-            handler.post(Code_maj);
+        }, 10000);
 
-            // Arrete l'éxécution
-            handler.removeCallbacks(Code_maj);
-        }
-*/
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+
+    // Récupération des données depuis une requête HTTP
+    private void RequestDevices() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, requestArraySuccessListener(), requestArrayErrorListener());
+        queue.add(jsonArrayRequest);
+    }
+
 
     public View createDeviceView(Device dev) {
 
@@ -219,11 +210,15 @@ public class Activite2 extends AppCompatActivity {
             public void onClick(View v) {
                 SwitchModeDevice(dev.getID());
                 Log.d("Switch Mode Device", "Maj du device numero " + dev.getID());
+                // requête POST pour changer l'état du device dans la base de données
+
+
             }
         });
 
         return layout ;
     }
+
 
     private void SwitchModeDevice(int deviceId) {
         //RequestQueue queue = Volley.newRequestQueue(this);
@@ -292,6 +287,7 @@ public class Activite2 extends AppCompatActivity {
         //bouton_etat.setText(Setat_maj);
         assert bouton != null;
         bouton.setText(Setat_maj);
+
     }
 
 

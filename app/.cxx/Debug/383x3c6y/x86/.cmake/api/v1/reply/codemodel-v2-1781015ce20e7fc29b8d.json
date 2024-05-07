@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "myapplication::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-myapplication-Debug-a077ddec93a0a306b0bb.json",
+					"jsonFile" : "target-myapplication-Debug-67b34cb256ce50eadd7c.json",
 					"name" : "myapplication",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/.cxx/Debug/383x3c6y/x86",
-		"source" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/src/main/cpp"
+		"build" : "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86",
+		"source" : "/Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp"
 	},
 	"version" : 
 	{
