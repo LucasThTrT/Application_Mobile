@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/Users/mathissigier/AndroidStudioProjects/Projet/app/build/intermediates/cxx/Debug/383x3c6y/obj/arm64-v8a/libmyapplication.so"
+			"path" : "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/armeabi-v7a/libmyapplication.so"
 		}
 	],
 	"backtrace" : 1,
@@ -42,7 +42,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC"
+					"fragment" : "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC"
 				}
 			],
 			"defines" : 
@@ -58,7 +58,7 @@
 			],
 			"sysroot" : 
 			{
-				"path" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+				"path" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
 			}
 		}
 	],
@@ -89,7 +89,7 @@
 		"language" : "CXX",
 		"sysroot" : 
 		{
-			"path" : "/Users/mathissigier/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+			"path" : "/Users/lucas/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
 		}
 	},
 	"name" : "myapplication",

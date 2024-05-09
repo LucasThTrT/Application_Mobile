@@ -1,0 +1,3 @@
+/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/armeabi-v7a/CMakeFiles/myapplication.dir
+/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/armeabi-v7a/CMakeFiles/rebuild_cache.dir

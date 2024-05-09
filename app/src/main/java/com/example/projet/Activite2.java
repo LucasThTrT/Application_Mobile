@@ -50,7 +50,7 @@ import java.util.Objects;
 public class Activite2 extends AppCompatActivity {
 
     // Numéro de la maison donnée
-    public int NumeroMaison = 29;
+    public int NumeroMaison = 31;
 
     // URL pour récupérer les données
     private String url = "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison;
@@ -72,6 +72,7 @@ public class Activite2 extends AppCompatActivity {
 
     private LinearLayout Global_L_Layout;
 
+    // File d'attente pour les requêtes HTTP
     private RequestQueue queue;
 
     @Override
@@ -80,34 +81,38 @@ public class Activite2 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_activity2);
 
+        // Initialisation de la file d'attente
+        this.queue = Volley.newRequestQueue(this);
+
         //on rajoute à la varibale globale le layout
         Global_L_Layout = findViewById(R.id.linearLayout);
 
         // Test rajout un modèle
-        Device dev_mathis = new Device();
+        /* Device dev_mathis = new Device();
         dev_mathis.setModele("Sigier");
         dev_mathis.setName("Mathis");
         dev_mathis.setType("TEST DEVICE");
         dev_mathis.setData((""));
         dev_mathis.setState(Boolean.TRUE);
         View view2 = createDeviceView(dev_mathis);
-        Global_L_Layout.addView(view2);
+        Global_L_Layout.addView(view2); */
 
-        // Récupération depuis requête HTTP des données
-        // et rajout dans les views
+        // Récupération depuis requête HTTP des données et rajout dans les views
+        // On le fait une première fois pour initialiser les données et ne pas attendre 5 secondes du Handler
         this.RequestDevices();
 
 
-        // Création d'un Handler en Thread pour récupérer toutes les 10secondes les données
+        // Création d'un Handler en Thread pour récupérer toutes les 5 secondes les données
+        // Avec une requête HTTP
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                RequestDevices();
-                handler.postDelayed(this, 10000);
+                RequestDevices(); // Récupération des données depuis une requête HTTP
+                handler.postDelayed(this, 10000); // On relance le handler toutes les 10 secondes
+                Toast.makeText(getApplicationContext(), "Mise à jour des données", Toast.LENGTH_SHORT).show();
             }
         }, 10000);
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -117,8 +122,8 @@ public class Activite2 extends AppCompatActivity {
     }
 
     // Récupération des données depuis une requête HTTP
-    private void RequestDevices() {
-        RequestQueue queue = Volley.newRequestQueue(this);
+    public void RequestDevices() {
+        RequestQueue queue = Volley.newRequestQueue(Activite2.this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, requestArraySuccessListener(), requestArrayErrorListener());
         queue.add(jsonArrayRequest);
     }
@@ -146,7 +151,7 @@ public class Activite2 extends AppCompatActivity {
             Setat = "OFF";
         }
 
-        String letexte = "[" + modele + "]" + " " + nom;
+        String letexte = "[" + marque + "-" + modele + "] " + nom;
 
         // Paramètres Titre
         RelativeLayout.LayoutParams paramsTitle = new RelativeLayout.LayoutParams(
@@ -208,11 +213,11 @@ public class Activite2 extends AppCompatActivity {
         bouton_etat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // ecrire pop up pour voir si le bouton a été cliqué
+                Toast.makeText(getApplicationContext(), "Switch enregistré " + String.valueOf(dev.getID()), Toast.LENGTH_SHORT).show();
                 SwitchModeDevice(dev.getID());
+                // Message de log
                 Log.d("Switch Mode Device", "Maj du device numero " + dev.getID());
-                // requête POST pour changer l'état du device dans la base de données
-
-
             }
         });
 
@@ -221,14 +226,13 @@ public class Activite2 extends AppCompatActivity {
 
 
     private void SwitchModeDevice(int deviceId) {
-        //RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest sr = new StringRequest(Request.Method.POST, "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/29/" + String.valueOf(deviceId),
+        StringRequest sr = new StringRequest(
+                Request.Method.POST,
+                "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/31/" + String.valueOf(deviceId),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        Toast.makeText(getApplicationContext(), "Switch Mode du device " + String.valueOf(deviceId), Toast.LENGTH_SHORT).show();
-                        refreshData(deviceId);
+                        Toast.makeText(getApplicationContext(), "Switch Mode du device Réussie !" + String.valueOf(deviceId), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -242,52 +246,20 @@ public class Activite2 extends AppCompatActivity {
                 params.put("deviceId", String.valueOf(deviceId));
                 params.put("houseId", String.valueOf(NumeroMaison));
                 params.put("action", "turnOnOff");
-                Log.d("getParams" + String.valueOf(deviceId), "getParams de la requête HTTP");
-
                 return params;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "Application/x−www−form−urlencoded");
-
-                return params;
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type",
+                        "application/x-www-form-urlencoded; charset=utf-8");
+                return headers;
             }
         };
+        // Ajout de la requête à la file d'attente
         this.queue.add(sr);
         Log.d("SwitchDeviceMode", "queue.add pour le dev num " + String.valueOf(deviceId));
-    }
-
-    public void refreshData(int device_ID) {
-        Log.d("MAJ", "RefreshData du device num" + String.valueOf(device_ID));
-        //Récupérer le device
-        Device dev = ListeDevice.get(device_ID);
-
-        //Récupérer la view
-        View view = Liste_Device_Views.get(device_ID);
-
-        //Bouton à changer
-        Button bouton = Liste_Boutons.get(device_ID);
-
-        // Récupéré l'état d'avant
-        Boolean etat_avant = dev.getState();
-
-        // Mettre le nouvel état
-        dev.setState(etat_avant);
-
-        String Setat_maj;
-        if (dev.getState()) {
-            Setat_maj = "ON";
-        } else {
-            Setat_maj = "OFF";
-        }
-
-        // Mettre à jour le texte
-        //bouton_etat.setText(Setat_maj);
-        assert bouton != null;
-        bouton.setText(Setat_maj);
-
     }
 
 
