@@ -77,6 +77,9 @@ public class Activite2 extends AppCompatActivity {
     // File d'attente pour les requêtes HTTP
     private RequestQueue queue;
 
+    // Handler pour les requêtes HTTP
+    private final Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,9 +96,6 @@ public class Activite2 extends AppCompatActivity {
         // On le fait une première fois pour initialiser les données et ne pas attendre 5 secondes du Handler
         this.RequestDevices();
 
-        // Création d'un Handler en Thread pour récupérer toutes les 5 secondes les données
-        // Avec une requête HTTP
-        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -110,6 +110,13 @@ public class Activite2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // Arrêter le Handler lorsque l'activité est détruite
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 
     // Récupération des données depuis une requête HTTP
