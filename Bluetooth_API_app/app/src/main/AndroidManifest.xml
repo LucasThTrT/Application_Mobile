@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +17,18 @@
         android:theme="@style/Theme.Bluetooth_API_app"
         tools:targetApi="31">
         <activity
+            android:name=".ClientDevicesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ServeurDevicesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ServeurActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ClientActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -20,12 +36,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ClientActivity"
-            android:exported="false">
-        </activity>
-        <activity android:name=".ServeurActivity"
-            android:exported="false">
         </activity>
     </application>
 

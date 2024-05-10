@@ -1,11 +1,10 @@
-package com.example.projet;
+package com.example.bluetooth_api_app;
 
 
 import android.content.ContentValues;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -35,21 +34,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 
-public class Activite2 extends AppCompatActivity {
+public class ServeurDevicesActivity extends AppCompatActivity {
 
     // Numéro de la maison donnée
     public int NumeroMaison = 31;
@@ -84,7 +74,7 @@ public class Activite2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_activity2);
+        setContentView(R.layout.activity_serveur_devices);
 
         // Initialisation de la file d'attente
         this.queue = Volley.newRequestQueue(this);
@@ -121,7 +111,7 @@ public class Activite2 extends AppCompatActivity {
 
     // Récupération des données depuis une requête HTTP
     public void RequestDevices() {
-        RequestQueue queue = Volley.newRequestQueue(Activite2.this);
+        RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, requestArraySuccessListener(), requestArrayErrorListener());
         queue.add(jsonArrayRequest);
     }
@@ -216,60 +206,7 @@ public class Activite2 extends AppCompatActivity {
         paramsTopRight.addRule(RelativeLayout.BELOW, titleview.getId());
         layout.addView(bouton_etat, paramsTopRight);
 
-        // Écouteur de clic pour le bouton
-        bouton_etat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // ecrire pop up pour voir si le bouton a été cliqué
-                Toast.makeText(getApplicationContext(), "Switch enregistré " + String.valueOf(dev.getID()), Toast.LENGTH_SHORT).show();
-                SwitchModeDevice(dev.getID());
-                // Message de log
-                Log.d("Switch Mode Device", "Maj du device numero " + dev.getID());
-            }
-        });
-
         return layout ;
-    }
-
-
-    private void SwitchModeDevice(int deviceId) {
-        StringRequest sr = new StringRequest(
-                Request.Method.POST,
-                "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/31/" + String.valueOf(deviceId),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        Toast.makeText(getApplicationContext(), "Switch Mode du device Réussie !" + String.valueOf(deviceId), Toast.LENGTH_SHORT).show();
-                        RequestDevices(); // Récupération des données depuis une requête HTTP car on a changé l'état d'un device
-                        // Il se peut que le device ne puisse pas être switché -> par de changement en mode local mais par le serveur !
-                    }
-
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "Requête POST echouée", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("deviceId", String.valueOf(deviceId));
-                params.put("houseId", String.valueOf(NumeroMaison));
-                params.put("action", "turnOnOff");
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type",
-                        "application/x-www-form-urlencoded; charset=utf-8");
-                return headers;
-            }
-        };
-        // Ajout de la requête à la file d'attente
-        this.queue.add(sr);
-        Log.d("SwitchDeviceMode", "queue.add pour le dev num " + String.valueOf(deviceId));
     }
 
 

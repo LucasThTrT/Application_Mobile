@@ -5,4 +5,10 @@
     <string name="la_maison_bluetooth">La Maison Bluetooth</string>
     <string name="lancer_le_client">LANCER LE CLIENT</string>
     <string name="lancer_le_serveur">LANCER LE SERVEUR</string>
+    <string name="client_en_attente">CLIENT EN ATTENTE</string>
+    <string name="serveur_en_attente">SERVEUR EN ATTENTE</string>
+    <string name="attente_de_connection_au_client">*Attente de connection au client*</string>
+    <string name="attente_de_connection_au_serveur">*Attente de connection au serveur*</string>
+    <string name="Entree_acti2" />
+    <string name="serveur_devices">Serveur Devices</string>
 </resources>

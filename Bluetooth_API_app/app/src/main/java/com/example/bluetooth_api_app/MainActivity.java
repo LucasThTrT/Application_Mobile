@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnClient;
+
     private Button btnServeur;
+
+    private Button btnTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +30,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnServeur = findViewById(R.id.Serveur);
+        Button btnServeur = findViewById(R.id.Serveur);
         btnServeur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Lancer l'activité ServeurActivity
                 Intent intent = new Intent(MainActivity.this, ServeurActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button btnTest = findViewById(R.id.Test);
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Lancer l'activité ServeurActivity
+                Intent intent = new Intent(MainActivity.this, ServeurDevicesActivity.class);
                 startActivity(intent);
             }
         });
