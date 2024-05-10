@@ -11,4 +11,5 @@
     <string name="attente_de_connection_au_serveur">*Attente de connection au serveur*</string>
     <string name="Entree_acti2" />
     <string name="serveur_devices">Serveur Devices</string>
+    <string name="client_devices">Client Devices</string>
 </resources>

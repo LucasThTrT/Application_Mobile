@@ -128,7 +128,7 @@ public class ClientActivity extends AppCompatActivity {
     private void manageMyConnectedSocket(BluetoothSocket socket) {
         // La connexion est établie avec succès
         // On a l'affichage des devices sur une nouvelle activité
-        Intent intent = new Intent(ClientActivity.this, ServeurDevicesActivity.class);
+        Intent intent = new Intent(ClientActivity.this, ClientDevicesActivity.class);
         startActivity(intent);
     }
 }
