@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bluetooth_API_app</string>
+    <string name="client">Client</string>
+    <string name="voulez_vous_activer_le_serveur_hub_ou_le_client_t_l_commande_utilisateur">Voulez-vous activer le serveur (hub) ou le client (télécommande utilisateur) ?</string>
+    <string name="la_maison_bluetooth">La Maison Bluetooth</string>
+    <string name="lancer_le_client">LANCER LE CLIENT</string>
+    <string name="lancer_le_serveur">LANCER LE SERVEUR</string>
+</resources>
