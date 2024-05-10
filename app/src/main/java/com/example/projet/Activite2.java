@@ -2,6 +2,8 @@ package com.example.projet;
 
 
 import android.content.ContentValues;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -53,7 +55,7 @@ public class Activite2 extends AppCompatActivity {
     public int NumeroMaison = 31;
 
     // URL pour récupérer les données
-    private String url = "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison;
+    private final String url = "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison;
 
     // JSONArray récupéré
     private JSONArray data_recup;
@@ -87,20 +89,9 @@ public class Activite2 extends AppCompatActivity {
         //on rajoute à la varibale globale le layout
         Global_L_Layout = findViewById(R.id.linearLayout);
 
-        // Test rajout un modèle
-        /* Device dev_mathis = new Device();
-        dev_mathis.setModele("Sigier");
-        dev_mathis.setName("Mathis");
-        dev_mathis.setType("TEST DEVICE");
-        dev_mathis.setData((""));
-        dev_mathis.setState(Boolean.TRUE);
-        View view2 = createDeviceView(dev_mathis);
-        Global_L_Layout.addView(view2); */
-
         // Récupération depuis requête HTTP des données et rajout dans les views
         // On le fait une première fois pour initialiser les données et ne pas attendre 5 secondes du Handler
         this.RequestDevices();
-
 
         // Création d'un Handler en Thread pour récupérer toutes les 5 secondes les données
         // Avec une requête HTTP
@@ -109,10 +100,10 @@ public class Activite2 extends AppCompatActivity {
             @Override
             public void run() {
                 RequestDevices(); // Récupération des données depuis une requête HTTP
-                handler.postDelayed(this, 10000); // On relance le handler toutes les 10 secondes
+                handler.postDelayed(this, 15000); // On relance le handler toutes les 10 secondes
                 Toast.makeText(getApplicationContext(), "Mise à jour des données", Toast.LENGTH_SHORT).show();
             }
-        }, 10000);
+        }, 15000);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -151,7 +142,7 @@ public class Activite2 extends AppCompatActivity {
             Setat = "OFF";
         }
 
-        String letexte = "[" + marque + "-" + modele + "] " + nom;
+        String letexte = ID + " - [" + marque + "-" + modele + "] " + nom;
 
         // Paramètres Titre
         RelativeLayout.LayoutParams paramsTitle = new RelativeLayout.LayoutParams(
@@ -199,6 +190,15 @@ public class Activite2 extends AppCompatActivity {
         // Création du bouton
         Button bouton_etat = new Button(this);
         bouton_etat.setText(Setat);
+        // Définition de la couleur du bouton en fonction de l'état
+        if (etat) {
+            // Bouton vert pour l'état ON
+            bouton_etat.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+        } else {
+            // Bouton rouge pour l'état OFF
+            bouton_etat.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+        }
+
         Liste_Boutons.put(dev.getID(), bouton_etat);
 
         // Paramètres pour positionner le bouton à droite du texte
@@ -233,7 +233,10 @@ public class Activite2 extends AppCompatActivity {
                     @Override
                     public void onResponse(String s) {
                         Toast.makeText(getApplicationContext(), "Switch Mode du device Réussie !" + String.valueOf(deviceId), Toast.LENGTH_SHORT).show();
+                        RequestDevices(); // Récupération des données depuis une requête HTTP car on a changé l'état d'un device
+                        // Il se peut que le device ne puisse pas être switché -> par de changement en mode local mais par le serveur !
                     }
+
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -273,6 +276,9 @@ public class Activite2 extends AppCompatActivity {
                 System.out.println(string_recup);
 
                 try {
+                    // On supprime l'affichage des devices précédents
+                    Global_L_Layout.removeAllViews();
+
                     for (int i = 0; i < data_recup.length(); i++) {
                         JSONObject device = data_recup.getJSONObject(i);
                         Device device_a_rajouter = new Device();
