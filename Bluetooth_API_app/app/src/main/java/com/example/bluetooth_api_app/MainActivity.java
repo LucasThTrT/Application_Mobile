@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btnServeur = findViewById(R.id.Serveur);
+        btnServeur = findViewById(R.id.Serveur);
         btnServeur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btnTest = findViewById(R.id.Test);
+        btnTest = findViewById(R.id.Test);
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

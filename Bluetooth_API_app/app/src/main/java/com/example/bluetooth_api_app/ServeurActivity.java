@@ -28,6 +28,7 @@ public class ServeurActivity extends AppCompatActivity {
     private static final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
 
+    @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
