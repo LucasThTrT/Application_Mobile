@@ -1,3 +1,3 @@
 # ninja log v5
-0	307	1715087514777954547	CMakeFiles/myapplication.dir/myapplication.cpp.o	a219b92fb934047f
-307	725	1715087515194394132	/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64/libmyapplication.so	2328bfd1d0ddc87b
+0	63	1715585939558216794	CMakeFiles/myapplication.dir/myapplication.cpp.o	9674d556ddd90c7a
+63	196	1715585939687174844	/Users/Lucas/Desktop/Application_Mobile/API_app/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64/libmyapplication.so	56f949e0f5b4fb37

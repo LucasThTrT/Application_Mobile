@@ -1,19 +1,19 @@
 {
   "buildFiles": [
-    "/Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp/CMakeLists.txt"
+    "/Users/Lucas/Desktop/Application_Mobile/API_app/app/src/main/cpp/CMakeLists.txt"
   ],
   "cleanCommandsComponents": [
     [
       "/Users/lucas/Library/Android/sdk/cmake/3.22.1/bin/ninja",
       "-C",
-      "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86_64",
+      "/Users/Lucas/Desktop/Application_Mobile/API_app/app/.cxx/Debug/383x3c6y/x86_64",
       "clean"
     ]
   ],
   "buildTargetsCommandComponents": [
     "/Users/lucas/Library/Android/sdk/cmake/3.22.1/bin/ninja",
     "-C",
-    "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86_64",
+    "/Users/Lucas/Desktop/Application_Mobile/API_app/app/.cxx/Debug/383x3c6y/x86_64",
     "{LIST_OF_TARGETS_TO_BUILD}"
   ],
   "libraries": {
@@ -21,7 +21,7 @@
       "toolchain": "toolchain",
       "abi": "x86_64",
       "artifactName": "myapplication",
-      "output": "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64/libmyapplication.so",
+      "output": "/Users/Lucas/Desktop/Application_Mobile/API_app/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64/libmyapplication.so",
       "runtimeFiles": []
     }
   },

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
@@ -40,81 +41,11 @@ public class ServeurActivity extends AppCompatActivity {
             return insets;
         });
 
-        AcceptThread acceptThread = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            acceptThread = new AcceptThread();
-        }
-        assert acceptThread != null;
+        // Lancemement de AcceptThread
+        Handler mhandler = new Handler();
+        AcceptThread acceptThread = new AcceptThread(mhandler, this);
         acceptThread.start();
     }
-
-    private class AcceptThread extends Thread {
-        private BluetoothServerSocket mmServerSocket;
-
-        @RequiresApi(api = Build.VERSION_CODES.S)
-        public AcceptThread() {
-            BluetoothServerSocket tmp = null;
-            try {
-                BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (bluetoothAdapter == null) {
-                    Log.e(TAG, "Bluetooth not supported");
-                    return;
-                }
-                if (ActivityCompat.checkSelfPermission(ServeurActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ServeurActivity.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_PERMISSION);
-                    return;
-                }
-                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
-            } catch (IOException e) {
-                Log.e(TAG, "Socket's listen() method failed", e);
-            }
-            mmServerSocket = tmp;
-        }
-
-        public void run() {
-            if (mmServerSocket == null) {
-                Log.e(TAG, "Server socket is null. Cannot proceed.");
-                return;
-            }
-
-            BluetoothSocket socket = null;
-            // Keep listening until exception occurs or a socket is returned.
-            while (true) {
-                try {
-                    socket = mmServerSocket.accept();
-                } catch (IOException e) {
-                    Log.e(TAG, "Socket's accept() method failed", e);
-                    break;
-                }
-
-                if (socket != null) {
-                    // A connection was accepted. Perform work associated with
-                    // the connection in a separate thread.
-                    manageMyConnectedSocket(socket);
-                    try {
-                        mmServerSocket.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "Could not close the server socket", e);
-                    }
-                    break;
-                }
-            }
-        }
-
-        // Closes the server socket and causes the thread to finish.
-        public void cancel() {
-            try {
-                mmServerSocket.close();
-            } catch (IOException e) {
-                Log.e(TAG, "Could not close the server socket", e);
-            }
-        }
-    }
-
-    private void manageMyConnectedSocket(BluetoothSocket socket) {
-        // La connexion est établie avec succès
-        // On a l'affichage des devices sur une nouvelle activité
-        Intent intent = new Intent(ServeurActivity.this, ServeurDevicesActivity.class);
-        startActivity(intent);
-    }
 }
+
+

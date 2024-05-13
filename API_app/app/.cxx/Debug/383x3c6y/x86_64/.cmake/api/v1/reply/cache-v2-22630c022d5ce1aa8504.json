@@ -151,7 +151,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86_64"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/API_app/app/.cxx/Debug/383x3c6y/x86_64"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -683,7 +683,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/API_app/app/src/main/cpp"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -719,7 +719,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/API_app/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -991,7 +991,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/API_app/app/build/intermediates/cxx/Debug/383x3c6y/obj/x86_64"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1275,7 +1275,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/.cxx/Debug/383x3c6y/x86_64"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/API_app/app/.cxx/Debug/383x3c6y/x86_64"
 		},
 		{
 			"name" : "myapplication_IS_TOP_LEVEL",
@@ -1299,7 +1299,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/Lucas/Desktop/Application_Mobile/app/src/main/cpp"
+			"value" : "/Users/Lucas/Desktop/Application_Mobile/API_app/app/src/main/cpp"
 		}
 	],
 	"kind" : "cache",

@@ -52,7 +52,7 @@ import java.util.Objects;
 public class Activite2 extends AppCompatActivity {
 
     // Numéro de la maison donnée
-    public int NumeroMaison = 31;
+    public int NumeroMaison = 29;
 
     // URL pour récupérer les données
     private final String url = "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison;
@@ -235,7 +235,7 @@ public class Activite2 extends AppCompatActivity {
     private void SwitchModeDevice(int deviceId) {
         StringRequest sr = new StringRequest(
                 Request.Method.POST,
-                "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/31/" + String.valueOf(deviceId),
+                "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison + "/" + String.valueOf(deviceId),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
