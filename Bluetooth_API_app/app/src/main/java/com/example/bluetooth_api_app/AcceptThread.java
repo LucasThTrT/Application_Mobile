@@ -1,83 +1,83 @@
 package com.example.bluetooth_api_app;
 
-import java.io.IOException;
-import java.util.UUID;
+import static androidx.core.content.ContextCompat.startActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
-class AcceptThread extends Thread {
-    private BluetoothServerSocket mServerSocket;
-    private BluetoothSocket mBluetoothSocket = null;
-    private Context context;
-    private final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    private final Handler mHandler;
-    public static final UUID APP_UUID = UUID
-            .fromString("aeb9f938-a1a3-4947-ace2-9ebd0c67adf1");
+import java.io.IOException;
+import java.util.UUID;
+
+public class AcceptThread extends Thread {
+    public BluetoothServerSocket mmServerSocket = null;
+    private static final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+    private static final String NAME = "ConnectThread";
+    private final Context mContext;
+    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.S)
-    public AcceptThread(Handler handler, Context context) {
-        this.context = context;
-        mHandler = handler;
-        try {
-            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.BLUETOOTH_CONNECT}, 1);
-            }
-            mServerSocket = mBluetoothAdapter
-                    .listenUsingRfcommWithServiceRecord("Bluetooth_API_App",
-                            APP_UUID);
-        } catch (IOException ignored) {
-        }
+    public AcceptThread(Context context) {
+        mContext = context;
     }
+
 
     public void run() {
-        Toast.makeText(null, "Waiting for connection", Toast.LENGTH_SHORT).show();
+        // Initialize the BluetoothServerSocket.
+        // SI AVANT LE RUN IL PEUT Y AVOIR UN PROBLEME DE PERMISSION, IL FAUT METTRE L'INITIALISATION DANS LE RUN
+        // POUR NE PAS AVOIR UN SERVER SOCKET NULL
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        try {
+            if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                // Request Bluetooth permission
+                ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.BLUETOOTH}, REQUEST_BLUETOOTH_PERMISSION);
+                return;
+            }
+            mmServerSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
+        } catch (IOException e) {
+            Log.e(ContentValues.TAG, "Socket's listen() method failed", e);
+        }
+        BluetoothSocket socket = null;
+        // Keep listening until exception occurs or a socket is returned.
         while (true) {
             try {
-                mBluetoothSocket = mServerSocket.accept();
-                manageConnectedSocket();
-                mServerSocket.close();
+                socket = mmServerSocket.accept();
+            } catch (IOException e) {
+                Log.e(ContentValues.TAG, "Socket's accept() method failed", e);
                 break;
-            } catch (IOException e1) {
-                if (mBluetoothSocket != null) {
-                    try {
-                        mServerSocket.close();
-                    } catch (IOException e2) {
-                        Log.d(ContentValues.TAG, "Socket Type: " + "Insecure");
-                    }
+            }
+
+            if (socket != null) {
+                // A connection was accepted. Perform work associated with
+                // the connection in a separate thread.
+                // The connection attempt succeeded. Perform work associated with
+                Intent intent = new Intent(mContext, ServeurDevicesActivity.class);
+                mContext.startActivity(intent);
+                try {
+                    mmServerSocket.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
+                break;
             }
         }
     }
 
-    private void manageConnectedSocket() {
-        Toast.makeText(null, "Connected", Toast.LENGTH_SHORT).show();
-        /*ConnectionThread conn = new ConnectionThread(mBluetoothSocket, mHandler);
-        mHandler.obtainMessage(DataTransferActivity.SOCKET_CONNECTED, conn)
-                .sendToTarget();
-        conn.start();*/
-        Toast.makeText(null, "HANDLER", Toast.LENGTH_SHORT).show();
-    }
-
+    // Closes the connect socket and causes the thread to finish.
     public void cancel() {
         try {
-            if (null != mServerSocket)
-                mServerSocket.close();
-        } catch (IOException ignored) {
+            mmServerSocket.close();
+        } catch (IOException e) {
+            Log.e(ContentValues.TAG, "Could not close the connect socket", e);
         }
     }
 }

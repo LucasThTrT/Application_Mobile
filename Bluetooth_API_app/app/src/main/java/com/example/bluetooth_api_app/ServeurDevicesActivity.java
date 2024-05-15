@@ -70,6 +70,9 @@ public class ServeurDevicesActivity extends AppCompatActivity {
     // Handler pour les requêtes HTTP
     private final Handler handler = new Handler();
 
+    // Communication Bluetooth
+    private MyBluetoothService mBluetoothService = new MyBluetoothService();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,6 +221,10 @@ public class ServeurDevicesActivity extends AppCompatActivity {
                 data_recup = jsonArray;
                 string_recup = jsonArray.toString();
                 System.out.println(string_recup);
+
+                // Envoi des données vers l'utilisateur
+                // via Bluetooth
+                mBluetoothService.write(string_recup.getBytes());
 
                 try {
                     // On supprime l'affichage des devices précédents

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
@@ -41,11 +42,9 @@ public class ServeurActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Lancemement de AcceptThread
-        Handler mhandler = new Handler();
-        AcceptThread acceptThread = new AcceptThread(mhandler, this);
+        Toast.makeText(this, "Starting server", Toast.LENGTH_SHORT).show();
+        AcceptThread acceptThread = new AcceptThread(ServeurActivity.this);
         acceptThread.start();
     }
 }
-
 
