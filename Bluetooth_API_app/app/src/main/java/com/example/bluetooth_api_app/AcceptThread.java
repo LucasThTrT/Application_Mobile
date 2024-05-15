@@ -20,6 +20,8 @@ import java.util.UUID;
 
 public class AcceptThread extends Thread {
     public BluetoothServerSocket mmServerSocket = null;
+    // Socket communication
+    public static BluetoothSocket socket = null;
     private static final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     private static final String NAME = "ConnectThread";
     private final Context mContext;
@@ -46,11 +48,12 @@ public class AcceptThread extends Thread {
         } catch (IOException e) {
             Log.e(ContentValues.TAG, "Socket's listen() method failed", e);
         }
-        BluetoothSocket socket = null;
+        // BluetoothSocket socket = null;
         // Keep listening until exception occurs or a socket is returned.
         while (true) {
             try {
                 socket = mmServerSocket.accept();
+                BluetoothSocketManager.setSocket(socket);
             } catch (IOException e) {
                 Log.e(ContentValues.TAG, "Socket's accept() method failed", e);
                 break;
@@ -60,8 +63,12 @@ public class AcceptThread extends Thread {
                 // A connection was accepted. Perform work associated with
                 // the connection in a separate thread.
                 // The connection attempt succeeded. Perform work associated with
+
+                // START THE NEW ACTIVITY
                 Intent intent = new Intent(mContext, ServeurDevicesActivity.class);
+                // Add the socket to the intent
                 mContext.startActivity(intent);
+
                 try {
                     mmServerSocket.close();
                 } catch (IOException e) {

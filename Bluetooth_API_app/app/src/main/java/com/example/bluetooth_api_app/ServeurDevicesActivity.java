@@ -1,12 +1,17 @@
 package com.example.bluetooth_api_app;
 
 
+import static android.content.ContentValues.TAG;
+
+import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +39,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -70,14 +78,55 @@ public class ServeurDevicesActivity extends AppCompatActivity {
     // Handler pour les requêtes HTTP
     private final Handler handler = new Handler();
 
-    // Communication Bluetooth
-    private MyBluetoothService mBluetoothService = new MyBluetoothService();
+    // Communication Bl
+    // Récupération du socket (Pas la meilleure solution à cause des threads)
+    private final BluetoothSocket socket = BluetoothSocketManager.getSocket();
+    private InputStream mmInStream;
+    private OutputStream mmOutStream;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_serveur_devices);
+
+
+        // Récupération des flux d'entrée et de sortie
+        try {
+            mmInStream = socket.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            mmOutStream = socket.getOutputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Création du Thread pour la réception des données
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Toast.makeText(getApplicationContext(), "Thread de réception des données", Toast.LENGTH_SHORT).show();
+                byte[] buffer = new byte[1024];
+                int bytes;
+                while (true) {
+                    try {
+                        bytes = mmInStream.read(buffer);
+                        // Conversion des bytes en Int
+                        int readMessage = Integer.parseInt(new String(buffer, 0, bytes));
+                        // On switch le mode du device
+                        handler.post(() -> SwitchModeDevice(readMessage));
+
+                    } catch (IOException e) {
+                        break;
+                    }
+                }
+            }
+        });
+
+        thread.start();
 
         // Initialisation de la file d'attente
         this.queue = Volley.newRequestQueue(this);
@@ -123,7 +172,7 @@ public class ServeurDevicesActivity extends AppCompatActivity {
     public View createDeviceView(Device dev) {
 
         // Création du layout
-        RelativeLayout layout = new RelativeLayout(this );
+        RelativeLayout layout = new RelativeLayout(this);
 
         // Récupération des information du device
         int autonomy = dev.getAutonomy();
@@ -212,19 +261,65 @@ public class ServeurDevicesActivity extends AppCompatActivity {
         return layout ;
     }
 
+    private void SwitchModeDevice(int deviceId) {
+        StringRequest sr = new StringRequest(
+                Request.Method.POST,
+                "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison + "/" + String.valueOf(deviceId),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        Toast.makeText(getApplicationContext(), "Switch Mode du device Réussie !" + String.valueOf(deviceId), Toast.LENGTH_SHORT).show();
+                        RequestDevices(); // Récupération des données depuis une requête HTTP car on a changé l'état d'un device
+                        // Il se peut que le device ne puisse pas être switché -> par de changement en mode local mais par le serveur !
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getApplicationContext(), "Requête POST echouée", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("deviceId", String.valueOf(deviceId));
+                params.put("houseId", String.valueOf(NumeroMaison));
+                params.put("action", "turnOnOff");
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type",
+                        "application/x-www-form-urlencoded; charset=utf-8");
+                return headers;
+            }
+        };
+        // Ajout de la requête à la file d'attente
+        this.queue.add(sr);
+        Log.d("SwitchDeviceMode", "queue.add pour le dev num " + String.valueOf(deviceId));
+    }
+
 
     private Response.Listener<JSONArray> requestArraySuccessListener () {
         return new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
-                Log.d(ContentValues.TAG, jsonArray.toString());
+                Log.d(TAG, jsonArray.toString());
                 data_recup = jsonArray;
                 string_recup = jsonArray.toString();
                 System.out.println(string_recup);
 
-                // Envoi des données vers l'utilisateur
-                // via Bluetooth
-                mBluetoothService.write(string_recup.getBytes());
+                //on envoie les données vers le client
+                byte[] buffer = string_recup.getBytes();
+                try {
+                    Toast.makeText(getApplicationContext(), "Envoi des données au client", Toast.LENGTH_SHORT).show();
+                    mmOutStream.write(buffer);
+                } catch (IOException e) {
+                    Toast.makeText(getApplicationContext(), "Erreur lors de l'envoi des données au client", Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
+                }
 
                 try {
                     // On supprime l'affichage des devices précédents
@@ -281,7 +376,7 @@ public class ServeurDevicesActivity extends AppCompatActivity {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e(ContentValues.TAG, Objects.requireNonNull(volleyError.getMessage()));
+                Log.e(TAG, Objects.requireNonNull(volleyError.getMessage()));
             }
         };
     }

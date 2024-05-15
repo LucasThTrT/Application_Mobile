@@ -1,11 +1,15 @@
-/*package com.example.bluetooth_api_app;
+package com.example.bluetooth_api_app;
 
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +37,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -50,11 +57,13 @@ public class ClientDevicesActivity extends AppCompatActivity {
 
     private LinearLayout Global_L_Layout;
 
-    // File d'attente pour les requêtes HTTP
-    private RequestQueue queue;
-
-    // Handler pour les requêtes HTTP
     private final Handler handler = new Handler();
+
+    // Récupération de la socket
+    private final BluetoothSocket socket = BluetoothSocketManager.getSocket();
+    private InputStream mmInStream;
+    private OutputStream mmOutStream;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,20 +71,52 @@ public class ClientDevicesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_client_devices);
 
-        // Initialisation de la file d'attente
-        this.queue = Volley.newRequestQueue(this);
+        // Récupération des flux d'entrée et de sortie
+        try {
+            mmInStream = socket.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            mmOutStream = socket.getOutputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Création du Thread pour la réception des données
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Toast.makeText(getApplicationContext(), "Thread de réception démarré", Toast.LENGTH_SHORT).show();
+                byte[] buffer = new byte[1024];
+                int bytes;
+                while (true) {
+                    try {
+                        bytes = mmInStream.read(buffer);
+
+                        // convertir byte en JASONARRAY
+                        String json = new String(buffer, 0, bytes);
+                        JSONArray jsonArray = new JSONArray(json);
+
+                        // Mise à jour des vues
+                        handler.post(() -> updateDeviceViews(jsonArray));
+
+                    } catch (IOException e) {
+                        break;
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
+        // Démarrage du thread
+        thread.start();
 
         //on rajoute à la varibale globale le layout
         Global_L_Layout = findViewById(R.id.linearLayout);
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                RequestDevices(); // Récupération des données depuis une requête HTTP
-                handler.postDelayed(this, 5000); // On relance le handler toutes les 10 secondes
-                //Toast.makeText(getApplicationContext(), "Mise à jour des données", Toast.LENGTH_SHORT).show();
-            }
-        }, 5000);
+        // On récupère les devices par handler read bluetooth
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -90,14 +131,6 @@ public class ClientDevicesActivity extends AppCompatActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
     }
-
-    // Récupération des données depuis une requête HTTP
-    public void RequestDevices() {
-        RequestQueue queue = Volley.newRequestQueue(Activite2.this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, requestArraySuccessListener(), requestArrayErrorListener());
-        queue.add(jsonArrayRequest);
-    }
-
 
     public View createDeviceView(Device dev) {
 
@@ -194,7 +227,11 @@ public class ClientDevicesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // ecrire pop up pour voir si le bouton a été cliqué
                 Toast.makeText(getApplicationContext(), "Switch enregistré " + String.valueOf(dev.getID()), Toast.LENGTH_SHORT).show();
-                SwitchModeDevice(dev.getID());
+                try {
+                    SwitchModeDevice(dev.getID());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 // Message de log
                 Log.d("Switch Mode Device", "Maj du device numero " + dev.getID());
             }
@@ -204,48 +241,16 @@ public class ClientDevicesActivity extends AppCompatActivity {
     }
 
 
-    private void SwitchModeDevice(int deviceId) {
-        StringRequest sr = new StringRequest(
-                Request.Method.POST,
-                "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison + "/" + String.valueOf(deviceId),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        Toast.makeText(getApplicationContext(), "Switch Mode du device Réussie !" + String.valueOf(deviceId), Toast.LENGTH_SHORT).show();
-                        RequestDevices(); // Récupération des données depuis une requête HTTP car on a changé l'état d'un device
-                        // Il se peut que le device ne puisse pas être switché -> par de changement en mode local mais par le serveur !
-                    }
-
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getApplicationContext(), "Requête POST echouée", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("deviceId", String.valueOf(deviceId));
-                params.put("houseId", String.valueOf(NumeroMaison));
-                params.put("action", "turnOnOff");
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type",
-                        "application/x-www-form-urlencoded; charset=utf-8");
-                return headers;
-            }
-        };
-        // Ajout de la requête à la file d'attente
-        this.queue.add(sr);
-        Log.d("SwitchDeviceMode", "queue.add pour le dev num " + String.valueOf(deviceId));
+    public void SwitchModeDevice(int id) throws IOException {
+        // convertir int en Byte
+        byte[] deviceId = new byte[1];
+        deviceId[0] = (byte) id;
+        // ENVOI PAR SOCKET
+        mmOutStream.write(deviceId);
     }
 
 
-    private Response.Listener<JSONArray> requestArraySuccessListener () {
+    /*private Response.Listener<JSONArray> requestArraySuccessListener () {
         return new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
@@ -303,7 +308,53 @@ public class ClientDevicesActivity extends AppCompatActivity {
                 }
             }
         };
+    }*/
+
+    private void updateDeviceViews(JSONArray jsonArray) {
+        try {
+            // On supprime l'affichage des devices précédents
+            Global_L_Layout.removeAllViews();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject deviceJson = jsonArray.getJSONObject(i);
+                Device device = new Device();
+                int id = deviceJson.getInt("ID");
+                String brand = deviceJson.getString("BRAND");
+                String modele = deviceJson.getString("MODEL");
+                String name = deviceJson.getString("NAME");
+                String type = deviceJson.getString("TYPE");
+                int autonomy = deviceJson.getInt("AUTONOMY");
+                int state = deviceJson.getInt("STATE");
+                String data = deviceJson.getString("DATA");
+
+                Boolean etat;
+                if (state == 1) {
+                    etat = Boolean.TRUE;
+                } else {
+                    etat = Boolean.FALSE;
+                }
+
+                // On crée un objet Device avec les données récupérées
+                device.setID(id);
+                device.setModele(modele);
+                device.setBrand(brand);
+                device.setName(name);
+                device.setType(type);
+                device.setAutonomy(autonomy);
+                device.setState(etat);
+                device.setData(data);
+
+                // On crée la vue correspondante pour ce device
+                View deviceView = createDeviceView(device);
+
+                // On ajoute la vue au layout global
+                Global_L_Layout.addView(deviceView);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private Response.ErrorListener requestArrayErrorListener() {
         return new Response.ErrorListener() {
@@ -313,4 +364,4 @@ public class ClientDevicesActivity extends AppCompatActivity {
             }
         };
     }
-}*/
+}

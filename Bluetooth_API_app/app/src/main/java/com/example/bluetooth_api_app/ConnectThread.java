@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
@@ -37,6 +38,11 @@ public class ConnectThread extends Thread {
             mmSocket = mmDevice.createRfcommSocketToServiceRecord(MY_UUID);
             mmSocket.connect();
             // Connection successful, perform further actions if needed.
+            BluetoothSocketManager.setSocket(mmSocket);
+            // START NEW ACTIVITY
+            Intent intent = new Intent(mContext, ClientDevicesActivity.class);
+            mContext.startActivity(intent);
+
         } catch (IOException connectException) {
             // Unable to connect; close the socket and return.
             try {
