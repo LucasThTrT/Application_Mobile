@@ -1,5 +1,7 @@
 package com.example.bluetooth_api_app;
 
+import static android.content.ContentValues.TAG;
+
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
@@ -55,6 +57,8 @@ public class ClientDevicesActivity extends AppCompatActivity {
     // Liste des boutons
     private final  Map<Integer, Button> Liste_Boutons = new HashMap<Integer, Button>();
 
+    // JSONArray récupéré
+    private JSONArray data_recup;
     private LinearLayout Global_L_Layout;
 
     private final Handler handler = new Handler();
@@ -88,18 +92,32 @@ public class ClientDevicesActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //Toast.makeText(getApplicationContext(), "Thread de réception démarré", Toast.LENGTH_SHORT).show();
+                // AUGMENTATION DE LA TAILLE DU BUFFER SINON ON PERD DES DONNEES
+                // pas possible de changer le buffer comme ça
                 byte[] buffer = new byte[1024];
                 int bytes;
                 while (true) {
                     try {
+                        // Il faut lire tout le buffer
+                        // Tout mettre dans une liste
+                        // mais n'extraire qu'un seul Json à la fois
+                        // Pour ensuite faire updateDeviceViews
+
+
                         bytes = mmInStream.read(buffer);
 
-                        // convertir byte en JASONARRAY
                         String json = new String(buffer, 0, bytes);
-                        JSONArray jsonArray = new JSONArray(json);
+                        JSONObject jsonObject = new JSONObject(json);
 
                         // Mise à jour des vues
-                        handler.post(() -> updateDeviceViews(jsonArray));
+                        handler.post(() -> updateDeviceViews(jsonObject));
+
+                        /*String json = new String(buffer, 0, bytes);
+                        JSONArray jsonArray = new JSONArray(json);
+                        //JSONObject jsonObject = new JSONObject(json);
+
+                        // Mise à jour des vues
+                        handler.post(() -> updateDeviceViews(jsonArray));*/
 
                     } catch (IOException e) {
                         break;
@@ -242,11 +260,10 @@ public class ClientDevicesActivity extends AppCompatActivity {
 
 
     public void SwitchModeDevice(int id) throws IOException {
-        // convertir int en Byte
-        byte[] deviceId = new byte[1];
-        deviceId[0] = (byte) id;
+        // Convertir int en string puis en byte !
+        byte[] buffer = String.valueOf(id).getBytes();
         // ENVOI PAR SOCKET
-        mmOutStream.write(deviceId);
+        mmOutStream.write(buffer);
     }
 
 
@@ -310,13 +327,21 @@ public class ClientDevicesActivity extends AppCompatActivity {
         };
     }*/
 
-    private void updateDeviceViews(JSONArray jsonArray) {
+    private void updateDeviceViews(JSONObject jsonObject) {
+    /*private void updateDeviceViews(JSONArray jsonArray) {
+
+        Log.d(TAG, jsonArray.toString());
+        data_recup = jsonArray;
+        String string_recup = jsonArray.toString();
+        System.out.println(string_recup);*/
+
         try {
             // On supprime l'affichage des devices précédents
-            Global_L_Layout.removeAllViews();
+            //Global_L_Layout.removeAllViews();
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject deviceJson = jsonArray.getJSONObject(i);
+            //for (int i = 0; i < jsonArray.length(); i++) {
+                //JSONObject deviceJson = jsonArray.getJSONObject(i);
+                JSONObject deviceJson = jsonObject;
                 Device device = new Device();
                 int id = deviceJson.getInt("ID");
                 String brand = deviceJson.getString("BRAND");
@@ -349,7 +374,7 @@ public class ClientDevicesActivity extends AppCompatActivity {
 
                 // On ajoute la vue au layout global
                 Global_L_Layout.addView(deviceView);
-            }
+           // }
         } catch (JSONException e) {
             e.printStackTrace();
         }

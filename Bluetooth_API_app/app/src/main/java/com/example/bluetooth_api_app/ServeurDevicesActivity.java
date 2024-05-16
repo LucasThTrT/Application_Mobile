@@ -311,6 +311,8 @@ public class ServeurDevicesActivity extends AppCompatActivity {
                 string_recup = jsonArray.toString();
                 System.out.println(string_recup);
 
+                // Problème de communication avec le client
+                /*// Le buffer est trop petit pour récupérer toutes les données
                 //on envoie les données vers le client
                 byte[] buffer = string_recup.getBytes();
                 try {
@@ -319,13 +321,31 @@ public class ServeurDevicesActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     Toast.makeText(getApplicationContext(), "Erreur lors de l'envoi des données au client", Toast.LENGTH_SHORT).show();
                     throw new RuntimeException(e);
-                }
+                }*/
 
                 try {
                     // On supprime l'affichage des devices précédents
                     Global_L_Layout.removeAllViews();
 
+                    //for (int i = 0; i < data_recup.length(); i++) {
                     for (int i = 0; i < data_recup.length(); i++) {
+                        // 4 Car on sait que ça rentre dans le buffer
+                        // On envoie les données au client pour chaque device
+                        // Progressivement pour éviter les problèmes de buffer
+                        byte[] buffer = data_recup.getJSONObject(i).toString().getBytes();
+                        try {
+                            mmOutStream.write(buffer);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        // Temps d'attente pour éviter les problèmes de buffer
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        // On récupère les données du device pour les afficher
                         JSONObject device = data_recup.getJSONObject(i);
                         Device device_a_rajouter = new Device();
                         int id = device.getInt("ID");

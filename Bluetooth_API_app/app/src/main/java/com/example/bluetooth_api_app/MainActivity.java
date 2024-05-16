@@ -39,15 +39,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        btnTest = findViewById(R.id.Test);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Lancer l'activité ServeurActivity
-                Intent intent = new Intent(MainActivity.this, ServeurDevicesActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }
