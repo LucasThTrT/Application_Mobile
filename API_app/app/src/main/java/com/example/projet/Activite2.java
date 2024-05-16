@@ -52,7 +52,7 @@ import java.util.Objects;
 public class Activite2 extends AppCompatActivity {
 
     // Numéro de la maison donnée
-    public int NumeroMaison = 29;
+    public int NumeroMaison = 31;
 
     // URL pour récupérer les données
     private final String url = "https://www.bde.enseeiht.fr/~bailleq/smartHouse/api/v1/devices/" + NumeroMaison;

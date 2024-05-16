@@ -24,12 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ClientActivity extends AppCompatActivity {
-
-    private static final String TAG = "ClientActivity";
-    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
-    private static final int REQUEST_ENABLE_BT = 1;
     private static final String macAdresse = "18:87:40:78:8D:C7"; // DU SERVEUR !!!
-
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override

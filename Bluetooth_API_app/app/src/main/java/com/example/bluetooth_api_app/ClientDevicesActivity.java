@@ -1,8 +1,5 @@
 package com.example.bluetooth_api_app;
 
-import static android.content.ContentValues.TAG;
-
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.ContentValues;
 import android.content.res.ColorStateList;
@@ -10,8 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,14 +22,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +44,8 @@ public class ClientDevicesActivity extends AppCompatActivity {
     // Liste des views
     private final Map<Integer, View> Liste_Device_Views = new HashMap<Integer, View>();
 
+    // Liste des infoViews que je n'arrive pas a récupérer sur le layout
+    private final Map<Integer, TextView> Liste_Info_Views = new HashMap<Integer, TextView>();
     // Liste des boutons
     private final  Map<Integer, Button> Liste_Boutons = new HashMap<Integer, Button>();
 
@@ -112,7 +104,7 @@ public class ClientDevicesActivity extends AppCompatActivity {
                         // Mise à jour des vues
                         handler.post(() -> updateDeviceViews(jsonObject));
 
-                        /*String json = new String(buffer, 0, bytes);
+                        /* String json = new String(buffer, 0, bytes);
                         JSONArray jsonArray = new JSONArray(json);
                         //JSONObject jsonObject = new JSONObject(json);
 
@@ -212,7 +204,7 @@ public class ClientDevicesActivity extends AppCompatActivity {
         paramsInfo.addRule(RelativeLayout.BELOW, RelativeLayout.TRUE);
         paramsInfo.setMargins(0, 70, 0, 100);
 
-
+        // Création de l'infoView
         TextView infoView = new TextView(this);
         infoView.setText(texte2);
         layout.addView(infoView, paramsInfo);
@@ -254,6 +246,10 @@ public class ClientDevicesActivity extends AppCompatActivity {
                 Log.d("Switch Mode Device", "Maj du device numero " + dev.getID());
             }
         });
+
+        // Ajout dans la liste des infoViews
+        // Ajoutez infoView à Liste_InfoViews avec l'ID du périphérique comme clé
+        Liste_Info_Views.put(dev.getID(), infoView);
 
         return layout ;
     }
@@ -337,46 +333,115 @@ public class ClientDevicesActivity extends AppCompatActivity {
 
         try {
             // On supprime l'affichage des devices précédents
-            //Global_L_Layout.removeAllViews();
+            /*Global_L_Layout.removeAllViews();
 
-            //for (int i = 0; i < jsonArray.length(); i++) {
-                //JSONObject deviceJson = jsonArray.getJSONObject(i);
-                JSONObject deviceJson = jsonObject;
-                Device device = new Device();
-                int id = deviceJson.getInt("ID");
-                String brand = deviceJson.getString("BRAND");
-                String modele = deviceJson.getString("MODEL");
-                String name = deviceJson.getString("NAME");
-                String type = deviceJson.getString("TYPE");
-                int autonomy = deviceJson.getInt("AUTONOMY");
-                int state = deviceJson.getInt("STATE");
-                String data = deviceJson.getString("DATA");
+            for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject deviceJson = jsonArray.getJSONObject(i);*/
 
-                Boolean etat;
-                if (state == 1) {
-                    etat = Boolean.TRUE;
-                } else {
-                    etat = Boolean.FALSE;
-                }
+            // Extract the device information from the JSONObject
+            JSONObject deviceJson = jsonObject;
+            Device device = new Device();
+            int id = jsonObject.getInt("ID");
+            String brand = jsonObject.getString("BRAND");
+            String modele = jsonObject.getString("MODEL");
+            String name = jsonObject.getString("NAME");
+            String type = jsonObject.getString("TYPE");
+            int autonomy = jsonObject.getInt("AUTONOMY");
+            int state = jsonObject.getInt("STATE");
+            String data = jsonObject.getString("DATA");
 
-                // On crée un objet Device avec les données récupérées
-                device.setID(id);
-                device.setModele(modele);
-                device.setBrand(brand);
-                device.setName(name);
-                device.setType(type);
-                device.setAutonomy(autonomy);
-                device.setState(etat);
-                device.setData(data);
+            Boolean etat;
+            if (state == 1) {
+                etat = Boolean.TRUE;
+            } else {
+                etat = Boolean.FALSE;
+            }
+
+            // On crée un objet Device avec les données récupérées
+            device.setID(id);
+            device.setModele(modele);
+            device.setBrand(brand);
+            device.setName(name);
+            device.setType(type);
+            device.setAutonomy(autonomy);
+            device.setState(etat);
+            device.setData(data);
+
+            //ListeDevice.put(device.getID(), device);
+
+            // On regarde si le device est déjà dans la liste
+            if (ListeDevice.containsKey(device.getID())) {
+                // Si le device est déjà dans la liste, on le met à jour
+                majDeviceView(device);
+            } else {
+                // Sinon, on l'ajoute à la liste
+                ListeDevice.put(device.getID(), device);
 
                 // On crée la vue correspondante pour ce device
                 View deviceView = createDeviceView(device);
 
                 // On ajoute la vue au layout global
                 Global_L_Layout.addView(deviceView);
-           // }
+            }
+
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void majDeviceView(Device device) {
+        // On récupère la vue correspondant au device
+        View deviceView = Liste_Device_Views.get(device.getID());
+
+        // On récupère le layout de la vue
+        RelativeLayout layout = (RelativeLayout) deviceView;
+
+        // Récupération des informations du device
+        int autonomy = device.getAutonomy();
+        String nom = device.getName();
+        Boolean etat = device.getState();
+        String modele = device.getModele();
+        String data = device.getData();
+        String type = device.getType();
+        String marque = device.getBrand();
+        int ID = device.getID();
+
+        String Setat = etat ? "ON" : "OFF";
+
+        // Mise à jour du bouton
+        Button bouton = Liste_Boutons.get(device.getID());
+        bouton.setText(Setat);
+        bouton.setBackgroundTintList(ColorStateList.valueOf(etat ? Color.GREEN : Color.RED));
+
+        // Vérifier si la vue n'est pas nulle
+        if (deviceView != null) {
+            // Mise à jour du texte
+
+            // Récupération de l'infoView par la HashMap
+            TextView infoView = Liste_Info_Views.get(device.getID());
+
+            if (infoView != null) {
+                // Création du nouveau texte à afficher
+                String newText;
+                if (device.getAutonomy() != -1) {
+                    newText = "Type : " + device.getType() + " Data : " + (device.getData().isEmpty() || device.getData().contentEquals("NoData") ? "" : device.getData() + " ") + "Autonomy : " + device.getAutonomy() + "%";
+                } else {
+                    newText = "Type : " + device.getType() + (device.getData().isEmpty() || device.getData().contentEquals("NoData") ? "" : " Data : " + device.getData());
+                }
+
+                // Mise à jour du texte de l'infoView
+                infoView.setText(newText);
+
+                // Mise à jour de la vue
+                layout.invalidate();
+
+                // Mise à jour du layout global
+                Global_L_Layout.invalidate();
+
+                // Mise à jour de la vue
+                deviceView.invalidate();
+
+            }
         }
     }
 
