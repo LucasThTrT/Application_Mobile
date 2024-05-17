@@ -1,6 +1,5 @@
 package com.example.bluetooth_api_app;
 
-
 import static android.content.ContentValues.TAG;
 
 import android.bluetooth.BluetoothSocket;
@@ -45,7 +44,6 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 
 public class ServeurDevicesActivity extends AppCompatActivity {
 
