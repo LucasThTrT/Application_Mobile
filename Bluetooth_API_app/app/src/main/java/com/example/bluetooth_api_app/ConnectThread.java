@@ -38,6 +38,7 @@ public class ConnectThread extends Thread {
             mmSocket = mmDevice.createRfcommSocketToServiceRecord(MY_UUID);
             mmSocket.connect();
             // Connection successful, perform further actions if needed.
+            // On met le socket en variable globale pour pouvoir l'utiliser dans la prochaine activité !
             BluetoothSocketManager.setSocket(mmSocket);
             // START NEW ACTIVITY
             Intent intent = new Intent(mContext, ClientDevicesActivity.class);
