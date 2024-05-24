@@ -53,6 +53,7 @@ public class AcceptThread extends Thread {
         while (true) {
             try {
                 socket = mmServerSocket.accept();
+                // On met le socket en variable globale pour pouvoir l'utiliser dans la prochaine activité !
                 BluetoothSocketManager.setSocket(socket);
             } catch (IOException e) {
                 Log.e(ContentValues.TAG, "Socket's accept() method failed", e);
